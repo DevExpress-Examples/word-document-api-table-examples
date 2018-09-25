@@ -1,0 +1,1 @@
+The following code example shows how to create complex tables using the **Word Processing Document API**.
