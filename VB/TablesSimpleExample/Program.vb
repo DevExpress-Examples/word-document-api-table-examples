@@ -141,9 +141,11 @@ Namespace TablesSimpleExample
 
 			'Call the ChangeCellBorderColor method for every cell in the first two rows
 			For i As Integer = 0 To 1
-				For j As Integer = 0 To (table.Rows(i).Cells.Count) - 1
+				Dim j As Integer = 0
+				Do While j < table.Rows(i).Cells.Count
 					ChangeCellBorderColor(table(i, j))
-				Next j
+					j += 1
+				Loop
 			Next i
 
 			'Specify the background color for the third row
