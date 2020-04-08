@@ -1,5 +1,6 @@
 ﻿using DevExpress.XtraRichEdit;
 using DevExpress.XtraRichEdit.API.Native;
+using DevExpress.Office.Utils;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -13,22 +14,25 @@ namespace TablesSimpleExample
     {
         static void Main(string[] args)
         {
-            RichEditDocumentServer server = new RichEditDocumentServer();
-            CreateTable(server.Document);
-            SetColumnWidth(server.Document.Tables[0]);
-            MergeAndSplit(server.Document);
-            FillData(server.Document);
-            FormatData(server.Document);
-            CustomizeTable(server.Document);
-            TableStyle(server.Document);
-            //DeleteElements(server.Document);
-            server.SaveDocument("DocumentWithTables.docx", DocumentFormat.OpenXml);
+            RichEditDocumentServer wordProcessor = new RichEditDocumentServer();
+            CreateTable(wordProcessor.Document);
+            SetColumnWidth(wordProcessor.Document.Tables[0]);
+            WrapTextAroundTable(wordProcessor.Document);
+            MergeAndSplit(wordProcessor.Document);
+            FillData(wordProcessor.Document);
+            FormatData(wordProcessor.Document);
+            CustomizeTable(wordProcessor.Document);
+            TableStyle(wordProcessor.Document);
+            //DeleteElements(wordProcessor.Document);
+
+            wordProcessor.SaveDocument("DocumentWithTables.docx", DocumentFormat.OpenXml);
             System.Diagnostics.Process.Start("DocumentWithTables.docx");
         }
+
         private static void CreateTable(Document document)
         {
             //Create a new table and specify its layout type
-            Table table = document.Tables.Create(document.Range.End, 2, 2);
+            Table table = document.Tables.Create(document.Range.Start, 2, 2);
 
             //Add new rows to the table
             TableRow newRowBefore = table.Rows.InsertBefore(0);
@@ -42,18 +46,18 @@ namespace TablesSimpleExample
         {
             //Set the width of the first column
             table.Rows[0].FirstCell.PreferredWidthType = WidthType.Fixed;
-            table.Rows[0].FirstCell.PreferredWidth = DevExpress.Office.Utils.Units.InchesToDocumentsF(0.8f);
+            table.Rows[0].FirstCell.PreferredWidth = Units.InchesToDocumentsF(0.8f);
 
 
             //Set the second column width and cell height
             table[0, 1].PreferredWidthType = WidthType.Fixed;
-            table[0, 1].PreferredWidth = DevExpress.Office.Utils.Units.InchesToDocumentsF(5f);
+            table[0, 1].PreferredWidth = Units.InchesToDocumentsF(5f);
             table[0, 1].HeightType = HeightType.Exact;
-            table[0, 1].Height = DevExpress.Office.Utils.Units.InchesToDocumentsF(0.5f);
+            table[0, 1].Height = Units.InchesToDocumentsF(0.5f);
 
             //Set the third column width 
             table.Rows[0].LastCell.PreferredWidthType = WidthType.Fixed;
-            table.Rows[0].LastCell.PreferredWidth = DevExpress.Office.Utils.Units.InchesToDocumentsF(0.8f);
+            table.Rows[0].LastCell.PreferredWidth = Units.InchesToDocumentsF(0.8f);
         }
 
         private static void MergeAndSplit(Document document)
@@ -198,12 +202,33 @@ namespace TablesSimpleExample
             myNewStyleForBottomRightCell.CellBackgroundColor = Color.FromArgb(188, 214, 201);
             document.EndUpdate();
 
-            document.BeginUpdate();
-
             // Apply a previously defined style to the table
             document.Tables[0].Style = tStyleMain;
         }
+        private static void WrapTextAroundTable(Document document)
+        {
+            Table table = document.Tables[0];
+            table.BeginUpdate();
+            //Wrap text around the table
+            table.TextWrappingType = TableTextWrappingType.Around;
 
+            //Specify vertical alignment:
+            table.RelativeVerticalPosition = TableRelativeVerticalPosition.Paragraph;
+            table.VerticalAlignment = TableVerticalAlignment.None;
+            table.OffsetYRelative = Units.InchesToDocumentsF(2f);
+
+            //Specify horizontal alignment:
+            table.RelativeHorizontalPosition = TableRelativeHorizontalPosition.Margin;
+            table.HorizontalAlignment = TableHorizontalAlignment.Center;
+            table.OffsetXRelative = Units.InchesToDocumentsF(2f);
+
+            //Set distance between the text and the table:
+            table.MarginBottom = Units.InchesToDocumentsF(0.3f);
+            table.MarginLeft = Units.InchesToDocumentsF(0.3f);
+            table.MarginTop = Units.InchesToDocumentsF(0.3f);
+            table.MarginRight = Units.InchesToDocumentsF(0.3f);
+            table.EndUpdate();            
+        }
         private static void DeleteElements(Document document)
         {
             Table tbl = document.Tables[0];
