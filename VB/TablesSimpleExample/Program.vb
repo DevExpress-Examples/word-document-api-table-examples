@@ -1,30 +1,28 @@
 ﻿Imports DevExpress.XtraRichEdit
 Imports DevExpress.XtraRichEdit.API.Native
 Imports DevExpress.Office.Utils
-Imports System
-Imports System.Collections.Generic
 Imports System.Drawing
-Imports System.Linq
-Imports System.Text
-Imports System.Threading.Tasks
 
 Namespace TablesSimpleExample
 	Friend Class Program
 		Shared Sub Main(ByVal args() As String)
-			Dim wordProcessor As New RichEditDocumentServer()
-			CreateTable(wordProcessor.Document)
-			SetColumnWidth(wordProcessor.Document.Tables(0))
-			WrapTextAroundTable(wordProcessor.Document)
-			MergeAndSplit(wordProcessor.Document)
-			FillData(wordProcessor.Document)
-			FormatData(wordProcessor.Document)
-			CustomizeTable(wordProcessor.Document)
-			TableStyle(wordProcessor.Document)
-			'DeleteElements(wordProcessor.Document);
+			Using wordProcessor As New RichEditDocumentServer()
+				CreateTable(wordProcessor.Document)
+				SetColumnWidth(wordProcessor.Document.Tables(0))
+				WrapTextAroundTable(wordProcessor.Document)
+				MergeAndSplit(wordProcessor.Document)
+				FillData(wordProcessor.Document)
+				FormatData(wordProcessor.Document)
+				CustomizeTable(wordProcessor.Document)
+				TableStyle(wordProcessor.Document)
+				AdjustTableRows(wordProcessor.Document)
+				'DeleteElements(wordProcessor.Document);
 
-			wordProcessor.SaveDocument("DocumentWithTables.docx", DocumentFormat.OpenXml)
+				wordProcessor.SaveDocument("DocumentWithTables.docx", DocumentFormat.OpenXml)
+			End Using
 			System.Diagnostics.Process.Start("DocumentWithTables.docx")
 		End Sub
+
 
 		Private Shared Sub CreateTable(ByVal document As Document)
 			'Create a new table and specify its layout type
@@ -141,11 +139,9 @@ Namespace TablesSimpleExample
 
 			'Call the ChangeCellBorderColor method for every cell in the first two rows
 			For i As Integer = 0 To 1
-				Dim j As Integer = 0
-				Do While j < table.Rows(i).Cells.Count
+				For j As Integer = 0 To (table.Rows(i).Cells.Count) - 1
 					ChangeCellBorderColor(table(i, j))
-					j += 1
-				Loop
+				Next j
 			Next i
 
 			'Specify the background color for the third row
@@ -217,6 +213,21 @@ Namespace TablesSimpleExample
 			table.MarginRight = Units.InchesToDocumentsF(0.3F)
 			table.EndUpdate()
 		End Sub
+
+		Private Shared Sub AdjustTableRows(ByVal document As Document)
+			Dim table As Table = document.Tables(0)
+			table.BeginUpdate()
+
+			'Repeat first three rows as header:
+			table.Rows(0).RepeatAsHeaderRow = True
+			table.Rows(1).RepeatAsHeaderRow = True
+			table.Rows(2).RepeatAsHeaderRow = True
+
+			'Break last row across pages:
+			table.LastRow.BreakAcrossPages = True
+			table.EndUpdate()
+		End Sub
+
 		Private Shared Sub DeleteElements(ByVal document As Document)
 			Dim tbl As Table = document.Tables(0)
 			tbl.BeginUpdate()

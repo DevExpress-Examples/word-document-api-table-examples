@@ -1,12 +1,7 @@
 ﻿using DevExpress.XtraRichEdit;
 using DevExpress.XtraRichEdit.API.Native;
 using DevExpress.Office.Utils;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TablesSimpleExample
 {
@@ -14,20 +9,24 @@ namespace TablesSimpleExample
     {
         static void Main(string[] args)
         {
-            RichEditDocumentServer wordProcessor = new RichEditDocumentServer();
-            CreateTable(wordProcessor.Document);
-            SetColumnWidth(wordProcessor.Document.Tables[0]);
-            WrapTextAroundTable(wordProcessor.Document);
-            MergeAndSplit(wordProcessor.Document);
-            FillData(wordProcessor.Document);
-            FormatData(wordProcessor.Document);
-            CustomizeTable(wordProcessor.Document);
-            TableStyle(wordProcessor.Document);
-            //DeleteElements(wordProcessor.Document);
+            using (RichEditDocumentServer wordProcessor = new RichEditDocumentServer())
+            {
+                CreateTable(wordProcessor.Document);
+                SetColumnWidth(wordProcessor.Document.Tables[0]);
+                WrapTextAroundTable(wordProcessor.Document);
+                MergeAndSplit(wordProcessor.Document);
+                FillData(wordProcessor.Document);
+                FormatData(wordProcessor.Document);
+                CustomizeTable(wordProcessor.Document);
+                TableStyle(wordProcessor.Document);
+                AdjustTableRows(wordProcessor.Document);
+                //DeleteElements(wordProcessor.Document);
 
-            wordProcessor.SaveDocument("DocumentWithTables.docx", DocumentFormat.OpenXml);
+                wordProcessor.SaveDocument("DocumentWithTables.docx", DocumentFormat.OpenXml);
+            }
             System.Diagnostics.Process.Start("DocumentWithTables.docx");
         }
+
 
         private static void CreateTable(Document document)
         {
@@ -229,6 +228,22 @@ namespace TablesSimpleExample
             table.MarginRight = Units.InchesToDocumentsF(0.3f);
             table.EndUpdate();            
         }
+
+        private static void AdjustTableRows(Document document)
+        {
+            Table table = document.Tables[0];
+            table.BeginUpdate();
+
+            //Repeat first three rows as header:
+            table.Rows[0].RepeatAsHeaderRow = true;
+            table.Rows[1].RepeatAsHeaderRow = true;
+            table.Rows[2].RepeatAsHeaderRow = true;
+
+            //Break last row across pages:
+            table.LastRow.BreakAcrossPages = true;
+            table.EndUpdate();
+        }
+
         private static void DeleteElements(Document document)
         {
             Table tbl = document.Tables[0];
