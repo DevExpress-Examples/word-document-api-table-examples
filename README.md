@@ -1,3 +1,3 @@
 # Word Processing File API Tables Example
 
-The following code example shows how to create complex tables using the **Word Processing Document API**.
+The following code example shows how use **Word Processing Document API** to create complex tables.
