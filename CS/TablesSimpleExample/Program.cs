@@ -167,10 +167,10 @@ namespace TablesSimpleExample
         private static void ChangeCellBorderColor(TableCell cell)
         {
             //Specify the border style and the background color for the header cells 
-            cell.Borders.Bottom.LineStyle = TableBorderLineStyle.None;
-            cell.Borders.Left.LineStyle = TableBorderLineStyle.None;
-            cell.Borders.Right.LineStyle = TableBorderLineStyle.None;
-            cell.Borders.Top.LineStyle = TableBorderLineStyle.None;
+            cell.Borders.Bottom.LineStyle = BorderLineStyle.None;
+            cell.Borders.Left.LineStyle = BorderLineStyle.None;
+            cell.Borders.Right.LineStyle = BorderLineStyle.None;
+            cell.Borders.Top.LineStyle = BorderLineStyle.None;
             cell.BackgroundColor = Color.Transparent;
 
         }
@@ -182,10 +182,10 @@ namespace TablesSimpleExample
             TableStyle tStyleMain = document.TableStyles.CreateNew();
 
             //Specify style options       
-            tStyleMain.TableBorders.InsideHorizontalBorder.LineStyle = TableBorderLineStyle.Single;
+            tStyleMain.TableBorders.InsideHorizontalBorder.LineStyle = BorderLineStyle.Single;
             tStyleMain.TableBorders.InsideHorizontalBorder.LineColor = Color.White;
 
-            tStyleMain.TableBorders.InsideVerticalBorder.LineStyle = TableBorderLineStyle.Single;
+            tStyleMain.TableBorders.InsideVerticalBorder.LineStyle = BorderLineStyle.Single;
             tStyleMain.TableBorders.InsideVerticalBorder.LineColor = Color.White;
             tStyleMain.CellBackgroundColor = Color.FromArgb(227, 238, 220);
             tStyleMain.Name = "MyTableStyle";
