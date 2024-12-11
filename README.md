@@ -6,7 +6,19 @@
 <!-- default badges end -->
 # Word Processing Document API - Manage Tables in a Document
 
-The following code example shows how use **Word Processing Document API** to create complex tables.
+The following code example shows how to use **Word Processing Document API** to create complex tables.
+
+> [!Important]  
+> The Universal Subscription or an additional Office File API Subscription is required to use this example in production code. For pricing information, please refer to the [DevExpress Subscription](https://www.devexpress.com/Subscriptions/) page.
+
+## Files to Review
+
+* [Program.cs](./CS/TablesSimpleExample/Program.cs) (VB: [Program.vb](./VB/TablesSimpleExample/Program.vb))
+
+## Documentation
+
+* [Tables in Word Documents](https://docs.devexpress.com/OfficeFileAPI/15311/word-processing-document-api/word-processing-document/tables)
+
 <!-- feedback -->
 ## Does this example address your development requirements/objectives?
 
