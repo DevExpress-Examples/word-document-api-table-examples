@@ -2,6 +2,7 @@ Imports DevExpress.XtraRichEdit
 Imports DevExpress.XtraRichEdit.API.Native
 Imports DevExpress.Office.Utils
 Imports System.Drawing
+Imports System.Diagnostics
 
 Namespace TablesSimpleExample
 
@@ -22,9 +23,9 @@ Namespace TablesSimpleExample
                 wordProcessor.SaveDocument("DocumentWithTables.docx", DocumentFormat.OpenXml)
             End Using
 
-            Dim processor As New Process()
-            processor.StartInfo = New ProcessStartInfo("DocumentWithTables.docx") With {.UseShellExecute = True}
-            processor.Start()
+            Dim p = New Process()
+            p.StartInfo = New ProcessStartInfo("DocumentWithTables.docx") With {.UseShellExecute = True}
+            p.Start()
         End Sub
 
         Private Shared Sub CreateTable(ByVal document As Document)
@@ -147,13 +148,22 @@ Namespace TablesSimpleExample
         End Sub
 
         Private Shared Sub TableStyle(ByVal document As Document)
-            document.BeginUpdate()
             'Create a new table style
-            Dim tStyleMain As TableStyle = document.TableStyles.CreateNew()
-            'Specify style options       
-            tStyleMain.TableBorders.InsideHorizontalBorder.LineStyle = BorderLineStyle.Single
+            document.BeginUpdate()
+             ''' Cannot convert LocalDeclarationStatementSyntax, System.InvalidCastException: Unable to cast object of type 'Microsoft.CodeAnalysis.VisualBasic.Syntax.UnaryExpressionSyntax' to type 'Microsoft.CodeAnalysis.VisualBasic.Syntax.TypeSyntax'.
+'''    at ICSharpCode.CodeConverter.VB.CommonConversions.RemodelVariableDeclaration(VariableDeclarationSyntax declaration)
+'''    at ICSharpCode.CodeConverter.VB.MethodBodyExecutableStatementVisitor.VisitLocalDeclarationStatement(LocalDeclarationStatementSyntax node)
+'''    at Microsoft.CodeAnalysis.CSharp.CSharpSyntaxVisitor`1.Visit(SyntaxNode node)
+'''    at ICSharpCode.CodeConverter.VB.CommentConvertingMethodBodyVisitor.DefaultVisit(SyntaxNode node)
+''' 
+''' Input:
+'''             //Create a new table style
+'''             TableStyle tStyleMain = document.TableStyles.CreateNew();
+''' 
+'''  'Specify style options       
+tStyleMain.TableBorders.InsideHorizontalBorder.LineStyle = BorderLineStyle.[Single]
             tStyleMain.TableBorders.InsideHorizontalBorder.LineColor = Color.White
-            tStyleMain.TableBorders.InsideVerticalBorder.LineStyle = BorderLineStyle.Single
+            tStyleMain.TableBorders.InsideVerticalBorder.LineStyle = BorderLineStyle.[Single]
             tStyleMain.TableBorders.InsideVerticalBorder.LineColor = Color.White
             tStyleMain.CellBackgroundColor = Color.FromArgb(227, 238, 220)
             tStyleMain.Name = "MyTableStyle"
