@@ -13,7 +13,7 @@ The following code example shows how to use **Word Processing Document API** to 
 
 ## Files to Review
 
-* [Program.cs](./CS/TablesSimpleExample/Program.cs) (VB: [Program.vb](./VB/TablesSimpleExample/Program.vb))
+* [Program.cs](./CS/Program.cs) (VB: [Program.vb](./VB/Program.vb))
 
 ## Documentation
 

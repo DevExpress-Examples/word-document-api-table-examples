@@ -22,7 +22,9 @@ Namespace TablesSimpleExample
                 wordProcessor.SaveDocument("DocumentWithTables.docx", DocumentFormat.OpenXml)
             End Using
 
-            System.Diagnostics.Process.Start("DocumentWithTables.docx")
+            Dim processor As New Process()
+            processor.StartInfo = New ProcessStartInfo("DocumentWithTables.docx") With {.UseShellExecute = True}
+            processor.Start()
         End Sub
 
         Private Shared Sub CreateTable(ByVal document As Document)

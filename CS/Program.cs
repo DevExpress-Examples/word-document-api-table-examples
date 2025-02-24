@@ -2,6 +2,7 @@
 using DevExpress.XtraRichEdit.API.Native;
 using DevExpress.Office.Utils;
 using System.Drawing;
+using System.Diagnostics;
 
 namespace TablesSimpleExample
 {
@@ -24,7 +25,12 @@ namespace TablesSimpleExample
 
                 wordProcessor.SaveDocument("DocumentWithTables.docx", DocumentFormat.OpenXml);
             }
-            System.Diagnostics.Process.Start("DocumentWithTables.docx");
+            var p = new Process();
+            p.StartInfo = new ProcessStartInfo(@"DocumentWithTables.docx")
+            {
+                UseShellExecute = true
+            };
+            p.Start();
         }
 
 
